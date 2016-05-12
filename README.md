@@ -12,13 +12,13 @@ Runs a test server that listens on 0.0.0.0:5000
 App interaction
 ===============
 
-* Set screen
+* Set pixel
 ```
-POST /setscreen/<appid>
+POST /setpixel/<appid>/<x>,<y>
 ```
 
 <appid> is an unique identifier for the app.
+<x>,<y> are inegers from 0 to 7.
 
-The POST data is the data that the app wants to display on the screen.
-
+The post data can be either "1" or "0"
 
