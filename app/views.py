@@ -4,7 +4,7 @@ from flask import request
 
 from app import app
 
-_validate = {'epoch': int, 'addr': str, 'username': str, 'result': bool}
+data = {}
 
 @app.route('/')
 def index():
@@ -12,5 +12,10 @@ def index():
 
 @app.route('/screen/<id>', methods=('GET',))
 def getscreen(id):
-    return bytes('ciao','ascii')
+    return data[id]
+    #bytes('ciao','ascii')
 
+@app.route('/setscreen/<app_id>', methods=('POST',))
+def ciao(app_id):
+    data[app_id] = request.stream.read()
+    return "ok"
