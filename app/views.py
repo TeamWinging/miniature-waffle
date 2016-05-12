@@ -17,7 +17,7 @@ def getscreen(id):
     #bytes('ciao','ascii')
 
 
-@app.route('/setpixel/<app_id>/<x>,<y>',  methods=('POST',))
+@app.route('/setpixel/<app_id>/<x>__8====D~__<y>',  methods=('POST',))
 def setpixel(app_id, x, y):
     x = int(x)
     y = int(y)

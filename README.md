@@ -14,7 +14,7 @@ App interaction
 
 * Set pixel
 ```
-POST /setpixel/<appid>/<x>,<y>
+POST /setpixel/<appid>/<x>__8====D~__<y>
 ```
 
 <appid> is an unique identifier for the app.
