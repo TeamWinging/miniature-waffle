@@ -5,6 +5,7 @@ import sys
 import time
 
 def serve(s):
+    s.setblocking(False)
     while True:
         print('Sending screen dump')
         try:
@@ -13,6 +14,8 @@ def serve(s):
             s.close()
             return
         time.sleep(1)
+        # Read from socket
+        # Read screen
 
 def main():
     # Access to the web server
