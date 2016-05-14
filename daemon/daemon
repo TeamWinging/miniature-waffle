@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 from http import client
+import select
 import socket
 import struct
 import sys
-import time
 
 settings = {
     'port': 12345,
@@ -21,27 +21,26 @@ def serve(s):
     while True:
         http_c.request('GET', '/screencount')
         count = int(http_c.getresponse().read())
-
-        if count == 0:
-            count = 1
-
-        for screen_id in range(count):
+        with select.epoll() as poll:
+            poll.register(s.fileno(), select.EPOLLIN | select.EPOLLPRI)
+            screen_id = 0
             print('Fetch screen dump %d' % screen_id)
             http_c.request('GET', '/screendump/%d' % screen_id)
             r = http_c.getresponse()
             dump = r.read()
-            dump = struct.pack('B', screen_id) + dump
+            #dump = struct.pack('B', screen_id) + dump
 
             print('Sending screen dump')
             print(dump)
             s.send(dump)
-        time.sleep(1)
 
-        try:
-            data = s.recv(1)
-            print('Got data' + repr(data))
-        except BlockingIOError:
-            pass
+            poll.poll(1)
+
+            try:
+                data = s.recv(1)
+                print('Got data' + repr(data))
+            except BlockingIOError:
+                pass
 
 def main():
     # Access to the web server
@@ -58,7 +57,6 @@ def main():
     while True:
         (s, addr) = srvsock.accept()
         print('Connection accepted')
-
         try:
             serve(s)
         except:
