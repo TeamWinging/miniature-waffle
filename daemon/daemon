@@ -19,20 +19,26 @@ def serve(s):
         settings['http_port'],
     )
     while True:
-        print('Fetch screen dump')
-        screen_id = 0
-        http_c.request('GET', '/screendump/%d' % screen_id)
-        r = http_c.getresponse()
-        dump = r.read()
-        dump = struct.pack('B', screen_id) + dump
+        http_c.request('GET', '/screencount')
+        count = int(http_c.getresponse().read())
 
-        print('Sending screen dump')
-        print(dump)
-        try:
-            s.send(dump)
-        except:
-            s.close()
-            return
+        if count == 0:
+            count = 1
+
+        for screen_id in range(count):
+            print('Fetch screen dump %d' % screen_id)
+            http_c.request('GET', '/screendump/%d' % screen_id)
+            r = http_c.getresponse()
+            dump = r.read()
+            dump = struct.pack('B', screen_id) + dump
+
+            print('Sending screen dump')
+            print(dump)
+            try:
+                s.send(dump)
+            except:
+                s.close()
+                return
         time.sleep(1)
         # Read from socket
 
