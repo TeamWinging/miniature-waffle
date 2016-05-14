@@ -20,6 +20,10 @@ def getscreen(id):
 
 @app.route('/screendump/<screen_id>', methods=('GET',))
 def screendump(screen_id):
+    '''
+    Returns 64 bit of data, representing the pixels
+    to set for the screen with the id
+    '''
     screen_id = int(screen_id)
     app_id = screen_mapping.get(screen_id)
 
@@ -36,6 +40,17 @@ def screendump(screen_id):
 
 @app.route('/setpixel/<app_id>/<x>__8====D~__<y>',  methods=('POST',))
 def setpixel(app_id, x, y):
+    '''
+    Sets the value for a pixel.
+
+    app_id is the unique identifier for the app
+
+    x and y are the values.
+
+    Only 1 byte is allowed in the POST payload.
+
+    It can either be '1' or '0'
+    '''
     x = int(x)
     y = int(y)
     screen = data.get(app_id, [ [i for i in bytes(8)] for i in range(8)])
