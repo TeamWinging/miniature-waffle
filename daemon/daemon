@@ -34,13 +34,14 @@ def serve(s):
 
             print('Sending screen dump')
             print(dump)
-            try:
-                s.send(dump)
-            except:
-                s.close()
-                return
+            s.send(dump)
         time.sleep(1)
-        # Read from socket
+
+        try:
+            data = s.recv(1)
+            print('Got data' + repr(data))
+        except BlockingIOError:
+            pass
 
 def main():
     # Access to the web server
@@ -57,7 +58,11 @@ def main():
     while True:
         (s, addr) = srvsock.accept()
         print('Connection accepted')
-        serve(s)
+
+        try:
+            serve(s)
+        except:
+            s.close()
 
 
 if __name__ == '__main__':
