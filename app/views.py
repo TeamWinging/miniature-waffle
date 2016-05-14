@@ -18,6 +18,14 @@ def getscreen(id):
     return repr(data[id])
 
 
+@app.route('/listapps', methods=('GET',))
+def listapps():
+    '''
+    Comma separated list of the available apps
+    '''
+    return ','.join(data.keys())
+
+
 @app.route('/screencount', methods=('GET',))
 def screencount():
     '''
