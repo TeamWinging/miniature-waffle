@@ -81,3 +81,51 @@ def setpixel(app_id, x, y):
     screen[x][y] = value
     data[app_id] = screen
     return repr(screen)
+
+
+@app.route('/setrow/<app_id>/<x>',  methods=('POST',))
+def setrow(app_id, x):
+    '''
+    Sets the values for a row
+
+    app_id is the unique identifier for the app
+
+    x is the value of the row
+
+    Only 1 byte is allowed in the POST payload.
+
+    It can either be '1' or '0'
+    '''
+    x = int(x)
+    value = int(request.stream.read())
+    if value not in range(2):
+        raise Exception('Pixel value out of range')
+    screen = getscreen(app_id)
+    screen[x] = [value for i in range(8)]
+    data[app_id] = screen
+    return repr(screen)
+
+
+@app.route('/setcol/<app_id>/<y>',  methods=('POST',))
+def setcol(app_id, y):
+    '''
+    Sets the values for a row
+
+    app_id is the unique identifier for the app
+
+    y is the value of the column
+
+    Only 1 byte is allowed in the POST payload.
+
+    It can either be '1' or '0'
+    '''
+    y = int(y)
+    value = int(request.stream.read())
+    if value not in range(2):
+        raise Exception('Pixel value out of range')
+    screen = getscreen(app_id)
+
+    for r in range(8):
+        screen[r][y] = value
+    data[app_id] = screen
+    return repr(screen)
