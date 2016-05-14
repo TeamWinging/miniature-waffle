@@ -18,6 +18,14 @@ def getscreen(id):
     return repr(data[id])
 
 
+@app.route('/screencount', methods=('GET',))
+def screencount():
+    '''
+    Returns the amount of screens
+    '''
+    return '%d' % len(screen_mapping)
+
+
 @app.route('/screendump/<screen_id>', methods=('GET',))
 def screendump(screen_id):
     '''
