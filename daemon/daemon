@@ -4,6 +4,13 @@ import socket
 import sys
 import time
 
+settings = {
+    'port': 12345,
+    'bind_addr': '0.0.0.0',
+    'http_hostname': None,
+    'http_port': None,
+}
+
 def serve(s):
     s.setblocking(False)
     while True:
@@ -19,7 +26,8 @@ def serve(s):
 
 def main():
     # Access to the web server
-    hostname, port = sys.argv[1:]
+    settings['http_hostname'] = sys.argv[1]
+    settings['http_port'] = int(sys.argv[2])
 
     # Server socket
     srvsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
