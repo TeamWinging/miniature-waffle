@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from http import client
 import socket
+import struct
 import sys
 import time
 
@@ -13,16 +14,27 @@ settings = {
 
 def serve(s):
     s.setblocking(False)
+    http_c = client.HTTPConnection(
+        settings['http_hostname'],
+        settings['http_port'],
+    )
     while True:
+        print('Fetch screen dump')
+        screen_id = 0
+        http_c.request('GET', '/screendump/%d' % screen_id)
+        r = http_c.getresponse()
+        dump = r.read()
+        dump = struct.pack('B', screen_id) + dump
+
         print('Sending screen dump')
+        print(dump)
         try:
-            s.send(bytes(9))
+            s.send(dump)
         except:
             s.close()
             return
         time.sleep(1)
         # Read from socket
-        # Read screen
 
 def main():
     # Access to the web server
