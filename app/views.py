@@ -38,6 +38,62 @@ def screencount():
     '''
     return '%d' % len(screen_mapping)
 
+@app.route('/icon/<app_id>/<icon_id>',  methods=('GET',))
+def icon(app_id, icon_id):
+    '''
+    Sets the value for a pixel.
+
+    app_id is the unique identifier for the app
+
+    icon_id is the icon identifier.
+
+    '''
+
+    rain = [
+        [0,0,1,1,1,1,0,0],
+        [0,1,1,0,0,1,1,0],
+        [1,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1],
+        [0,0,0,0,1,0,0,0],
+        [0,0,0,0,1,0,0,0],
+        [0,0,0,0,1,0,0,0],
+        [0,0,0,1,1,0,0,0]
+    ]
+
+    sun = [
+        [1,0,0,1,0,0,1,0],
+        [0,1,0,1,0,1,0,0],
+        [0,0,1,1,1,0,0,0],
+        [1,1,1,1,1,1,1,0],
+        [0,0,1,1,1,0,0,0],
+        [0,0,1,1,0,1,0,0],
+        [0,1,0,1,0,0,1,0],
+        [1,0,0,0,0,0,0,0]
+        ]
+
+    cloud = [
+        [0,0,0,0,0,0,0,0],
+        [0,1,0,0,0,0,0,0],
+        [1,0,1,0,1,1,0,0],
+        [0,0,0,1,1,1,1,0],
+        [0,0,1,1,1,1,1,1],
+        [0,1,1,1,1,1,1,1],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0]
+        ]
+
+    if icon_id == "rain":
+        result = rain
+
+    elif icon_id == "sun":
+        result = sun
+
+    elif icon_id == "cloud":
+        result = cloud
+
+    data[app_id] = result
+    return ""
+
 
 @app.route('/screendump/<screen_id>', methods=('GET',))
 def screendump(screen_id):
