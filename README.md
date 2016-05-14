@@ -9,6 +9,10 @@ It requires python3 and python3-flask.
 
 Runs a test server that listens on 0.0.0.0:5000
 
+The daemon is the item that communicates with the arduino device. It accepts a hostname and a port on the command line, which are pointing to the webserver started by the previous command.
+
+It listens to port 12345
+
 App interaction
 ===============
 
