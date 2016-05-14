@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
+from http import client
 import socket
 import sys
+import time
+
+def serve(s):
+    while True:
+        print('Sending screen dump')
+        try:
+            s.send(bytes(9))
+        except:
+            s.close()
+            return
+        time.sleep(1)
 
 def main():
     # Access to the web server
@@ -8,12 +20,15 @@ def main():
 
     # Server socket
     srvsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    srvsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     srvsock.bind(('0.0.0.0', 12345))
     srvsock.listen(1)
 
 
     while True:
         (s, addr) = srvsock.accept()
+        print('Connection accepted')
+        serve(s)
 
 
 if __name__ == '__main__':
