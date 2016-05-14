@@ -22,7 +22,7 @@ POST /setpixel/<appid>/<x>__8====D~__<y>
 ```
 
 <appid> is an unique identifier for the app.
-<x>,<y> are inegers from 0 to 7.
+<x>,<y> are integers from 0 to 7.
 
 The post data can be either "1" or "0"
 
